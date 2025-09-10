@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DOOM en tu página</title>
+  <style>
+    :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif; }
+    body { margin: 0; background: #0f1220; color: #e8e8ee; }
+    header { padding: 16px; text-align: center; }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 0 16px 24px; }
+    .card { background: #171a2b; border: 1px solid #2a2e45; border-radius: 14px; padding: 16px; }
+    .controls { display: flex; gap: 8px; justify-content: center; margin-bottom: 12px; flex-wrap: wrap; }
+    button { border: 1px solid #2a2e45; background: #1f2340; color: #e8e8ee; padding: 10px 14px; border-radius: 10px; cursor: pointer; }
+    button.active { background: #303a78; }
+    iframe { width: 100%; height: min(80vh, 780px); border: 0; border-radius: 10px; }
+    .note { font-size: 14px; opacity: .85; text-align: center; margin-top: 10px; }
+    a { color: #a7c5ff; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>DOOM (1993) – Embeber en Google Sites</h1>
+  </header>
+
+  <div class="wrap">
+    <div class="card">
+      <div class="controls">
+        <button id="btn-archive" class="active" onclick="show('archive')">Fuente 1: Internet Archive</button>
+        <button id="btn-doszone" onclick="show('doszone')">Fuente 2: JS‑DOS (alternativa)</button>
+        <button onclick="fullscreen()">Pantalla completa</button>
+      </div>
+
+      <!-- Fuente 1: Internet Archive (estable) -->
+      <iframe id="frame-archive"
+              src="https://archive.org/embed/msdos_DOOM_1993"
+              allowfullscreen
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+
+      <!-- Fuente 2: JS-DOS (por si la primera está bloqueada) -->
+      <iframe id="frame-doszone"
+              src="https://dos.zone/player/?bundle=https://dos.zone/games/doom.jsdos"
+              allowfullscreen
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              style="display:none">
+      </iframe>
+
+      <p class="note">
+        Si una fuente muestra error 404 o queda en blanco, cambia a la otra con los botones de arriba.
+        Para insertarlo en Google Sites: <em>Insertar → Incrustar → Código</em> y pega
+        <code>&lt;iframe src="TU_URL_AQUI" width="800" height="600"&gt;&lt;/iframe&gt;</code> apuntando a esta página hospedada.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    function show(which) {
+      const a = document.getElementById('frame-archive');
+      const d = document.getElementById('frame-doszone');
+      const ba = document.getElementById('btn-archive');
+      const bd = document.getElementById('btn-doszone');
+      if (which === 'archive') {
+        a.style.display = '';
+        d.style.display = 'none';
+        ba.classList.add('active');
+        bd.classList.remove('active');
+      } else {
+        a.style.display = 'none';
+        d.style.display = '';
+        ba.classList.remove('active');
+        bd.classList.add('active');
+      }
+    }
+    function fullscreen() {
+      const current = document.getElementById('frame-archive').style.display === 'none'
+        ? document.getElementById('frame-doszone')
+        : document.getElementById('frame-archive');
+      if (current.requestFullscreen) current.requestFullscreen();
+    }
+  </script>
+</body>
+</html>
